@@ -29,3 +29,5 @@ Route::get('/category/{category}', [
 Route::auth();
 
 Route::get('/home', 'Backend\HomeController@index');
+
+Route::resource('/backend/blog','Backend\BlogController');
