@@ -28,9 +28,9 @@ class UsersTableSeeder extends Seeder
                 'password' => bcrypt('secret')
             ],
             [
-                'name' => "Edo Masaru",
-                'email' => "edo@test.com",
-                'password' => bcrypt('secret')
+                'name' => "aa",
+                'email' => "aa@aa.com",
+                'password' => bcrypt('123456')
             ],
         ]);
     }
