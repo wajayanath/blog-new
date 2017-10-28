@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Post;
+use Intervention\Image\ImageManagerStatic as Image;
+
 // use App\Http\Controllers\Controller;
 
 class BlogController extends BackendController
@@ -60,8 +62,18 @@ class BlogController extends BackendController
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $fileName = $image->getClientOriginalName();
+
             $destination = $this->uploadPath;
-            $image->move($destination, $fileName);
+
+            $sucessUploaded = $image->move($destination, $fileName);
+
+            if ($sucessUploaded) {
+                $extension = $image->getClientOriginalExtension();
+                $thumbnail = str_replace(".{$extension}", "_thumb.{$extension}", $fileName);
+                Image::make($destination . '/' . $fileName)
+                        ->resize(250, 170)
+                        ->save($destination . '/' . $thumbnail);
+            }
 
             $data['image'] = $fileName; 
         }

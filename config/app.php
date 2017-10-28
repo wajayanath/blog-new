@@ -124,6 +124,7 @@ return [
     */
 
     'providers' => [
+        Intervention\Image\ImageServiceProvider::class,
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
 
         /*
@@ -173,6 +174,7 @@ return [
     */
 
     'aliases' => [
+        'Image' => Intervention\Image\Facades\Image::class,
         'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class,
 
         'App' => Illuminate\Support\Facades\App::class,
