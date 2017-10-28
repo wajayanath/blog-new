@@ -10,6 +10,13 @@ use App\Post;
 class BlogController extends BackendController
 {
     protected $limit = 5;
+    protected $uploadPath;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->uploadPath = public_path('img');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -38,21 +45,29 @@ class BlogController extends BackendController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Requests\PostRequest $request)
     {
-        $this->validate($request, [
-            'title' => 'required',
-            'slug'  => 'required | unique:posts',
-            'body'  => 'required',
-            //'published_at'  => 'date_format:Y-m-d H:i:s',
-            'category_id'   => 'required'
-        ]);
-
-        $request->user()->posts()->create($request->all());
+       $data = $this->handleRequest($request);
+       $request->user()->posts()->create($data);
         
         return redirect('/backend/blog')->with('message', 'Your post was created successfully!');
     }
 
+    public function handleRequest($request)
+    {
+        $data = $request->all();
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $fileName = $image->getClientOriginalName();
+            $destination = $this->uploadPath;
+            $image->move($destination, $fileName);
+
+            $data['image'] = $fileName; 
+        }
+
+        return $data;
+    }
     /**
      * Display the specified resource.
      *

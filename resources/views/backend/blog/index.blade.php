@@ -32,7 +32,7 @@
               <!-- /.box-header -->
               <div class="box-body ">
               	@if (session('message'))
-              		<div class="alert alert-success">
+              		<div class="alert alert-info">
               			{{ session('message') }}
               		</div>
               	@endif
@@ -64,7 +64,7 @@
                     				</a>
                     			</td>
                     			<td>{{ $post->title }}</td>
-                    			<td>{{ $post->author }}</td>
+                    			<td>{{ $post->author->name }}</td>
                     			<td>{{ $post->category->title }}</td>
                     			<td>
                     				<abbr title="{{ $post->dateFormatted(true) }}">{{ $post->dateFormatted() }}</abbr> |  

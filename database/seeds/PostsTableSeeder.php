@@ -29,7 +29,7 @@ class PostsTableSeeder extends Seeder
             $createdDate   = clone($date);
 
             $posts[] = [
-                'user_id'    => rand(1, 3),
+                'author_id'    => rand(1, 3),
                 'title'        => $faker->sentence(rand(8, 12)),
                 'excerpt'      => $faker->text(rand(250, 300)),
                 'body'         => $faker->paragraphs(rand(10, 15), true),
