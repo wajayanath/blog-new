@@ -17,7 +17,7 @@ class BlogController extends BackendController
     public function __construct()
     {
         parent::__construct();
-        $this->uploadPath = public_path('img');
+        $this->uploadPath = public_path(config('cms.image.directory'));
     }
     /**
      * Display a listing of the resource.
@@ -55,7 +55,7 @@ class BlogController extends BackendController
         return redirect('/backend/blog')->with('message', 'Your post was created successfully!');
     }
 
-    public function handleRequest($request)
+    private function handleRequest($request)
     {
         $data = $request->all();
 
@@ -68,10 +68,12 @@ class BlogController extends BackendController
             $sucessUploaded = $image->move($destination, $fileName);
 
             if ($sucessUploaded) {
+                $width = config('cms.image.thumbnail.width');
+                $height = config('cms.image.thumbnail.height');
                 $extension = $image->getClientOriginalExtension();
                 $thumbnail = str_replace(".{$extension}", "_thumb.{$extension}", $fileName);
                 Image::make($destination . '/' . $fileName)
-                        ->resize(250, 170)
+                        ->resize($width, $height)
                         ->save($destination . '/' . $thumbnail);
             }
 
@@ -99,7 +101,8 @@ class BlogController extends BackendController
      */
     public function edit($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        return view("backend.blog.create", compact('post'));
     }
 
     /**

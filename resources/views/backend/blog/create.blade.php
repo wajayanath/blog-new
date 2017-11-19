@@ -32,6 +32,7 @@
                     'route' => 'backend.blog.store',
                     'files' => TRUE
                   ]) !!}
+                  
                 <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
                   {!! Form::label('title') !!}
                   {!! Form::text('title', null, ['class' => 'form-control']) !!}
@@ -88,6 +89,7 @@
 
                 <hr>
                 {!! Form::submit('Create new post', ['class' => 'btn btn-primary']) !!}
+
                 {!! Form::close() !!} 
               </div>
               <!-- /.box-body -->
@@ -108,9 +110,15 @@
     $('#title').on('blur', function() {
         var theTitle = this.value.toLowerCase().trim(),
         slugInput = $('#slug'),
-        theSlug = theTitle.replace(/[^a-z0-9-]+/g, '-');
-
+        theSlug = theTitle.replace(/&/g, '-and-')
+                          .replace(/[^a-z0-9-]+/g, '-')
+                          .replace(/\-\-+/g,'-')
+                          .replace(/^-+|-+$/g, '');
+ 
         slugInput.val(theSlug);
+
+        var simplemde1 = new SimpleMDE({ element: $("#excerpt")[0] });
+        var simplemde2 = new SimpleMDE({ element: $("#body")[0] });
 
     });
 	</script>

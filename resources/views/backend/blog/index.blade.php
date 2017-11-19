@@ -56,9 +56,16 @@
                     		@foreach ($posts as $post)
                     			<tr>
                     			<td>
-                    				<a href="{{ route('backend.blog.edit', $post->id ) }}" class="btn btn-xs btn-default">
-                    					<i class="fa fa-edit"></i>
-                    				</a>
+                            @if(check_user_permissions(request(),"", $post->id))
+                      				<a href="{{ route('backend.blog.edit', $post->id ) }}" class="btn btn-xs btn-default">
+                      					<i class="fa fa-edit"></i>
+                      				</a>
+                            @else 
+                              <a href="#" class="btn btn-xs btn-default disabled">
+                                  <i class="fa fa-edit"></i>
+                                </a>
+                            @endif
+
                     				<a href="{{ route('backend.blog.destroy', $post->id ) }}" class="btn btn-xs btn-danger">
                     					<i class="fa fa-times"></i>
                     				</a>

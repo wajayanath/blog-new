@@ -33,12 +33,15 @@
             <li><a href="{{ route('backend.blog.create') }}"><i class="fa fa-circle-o"></i> Add New</a></li>
           </ul>
         </li>
-        @role(['admin','editor'])
-        <li><a href="#"><i class="fa fa-folder"></i> <span>Categories</span></a></li>
-        @endrole
-        @role(['admin'])
-        <li><a href="#"><i class="fa fa-users"></i> <span>Users</span></a></li>
-        @endrole
+
+        @if (check_user_permissions(request(), "Categories@index"))
+          <li><a href="#"><i class="fa fa-folder"></i> <span>Categories</span></a></li>
+        @endif
+
+         @if (check_user_permissions(request(), "Users@index"))
+          <li><a href="#"><i class="fa fa-users"></i> <span>Users</span></a></li>
+        @endif
+
       </ul>
     </section>
     <!-- /.sidebar -->
