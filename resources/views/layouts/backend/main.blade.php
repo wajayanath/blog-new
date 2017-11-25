@@ -57,6 +57,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/backend/js/app.min.js"></script>
-  @yield('script')
+   @yield('script')
 </body>
 </html>

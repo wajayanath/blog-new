@@ -102,7 +102,7 @@ class BlogController extends BackendController
     public function edit($id)
     {
         $post = Post::findOrFail($id);
-        return view("backend.blog.create", compact('post'));
+        return view("backend.blog.edit", compact('post'));
     }
 
     /**
@@ -112,9 +112,17 @@ class BlogController extends BackendController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Requests\PostRequest  $request, $id)
     {
-        //
+         $post     = Post::findOrFail($id);
+        // $oldImage = $post->image;
+        $data     = $this->handleRequest($request);
+        $post->update($data);
+
+        // if ($oldImage !== $post->image) {
+        //     $this->removeImage($oldImage);
+        // }
+        return redirect('/backend/blog')->with('message', 'Your post was updated successfully!');
     }
 
     /**
@@ -125,6 +133,17 @@ class BlogController extends BackendController
      */
     public function destroy($id)
     {
-        //
+        Post::findOrFail($id)->delete();
+
+        return redirect('/backend/blog')->with('trash-message',  ['Your post moved to Trash', $id]);
     }
+
+    public function restore($id)
+    {
+        $post = Post::withTrashed()->findOrFail($id);
+        $post->restore();
+
+        return redirect()->back()->with('message', 'You post has been moved from the Trash');
+    }
+    
 }

@@ -3,8 +3,8 @@ return [
 	'image' => [
 		'directory' => 'img',
 		'thumbnail' => [
-			'width' => 250,
-			'height' => 170
+			'width' => 200,
+			'height' => 150
 		]
 	]
 ];
