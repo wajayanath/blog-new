@@ -24,10 +24,26 @@
         <div class="row">
           <div class="col-xs-12">
             <div class="box">
-            	<div class="box-header">
+            	<div class="box-header clearfix">
             		<div class="pull-left">
             			<a href="{{ route('backend.blog.create') }}" class="btn btn-success">Add New</a>
             		</div>
+                <div class="pull-right" style="padding:7px 0;">
+                   <?php $links = [] ?>
+                  @foreach ($statusList as $key => $value)
+                    @if ($value)
+                      <?php $selected = Request::get('status') == $key ? 'selected-status' : '' ?>
+                      <?php $links[] = "<a class=\"{$selected}\" href=\"?status={$key}\">". ucwords($key) ."({$value})</a>" ?>
+                    @endif
+                  @endforeach
+                  {!! implode(' | ', $links) !!}
+                  {{-- <a href="?status=all">All</a> |
+                  <a href="?status=published">Published</a> |
+                  <a href="?status=scheduled">Scheduled</a> |
+                  <a href="?status=draft">Draft</a> |
+                  <a href="?status=trash">Trash</a> --}}
+
+                </div>
             	</div>
               <!-- /.box-header -->
               <div class="box-body ">
@@ -38,57 +54,17 @@
               			<strong>No record found</strong>
               		</div>
               	@else
-                    <table class="table table-bordered">
-                    	<tread>
-                    		<tr>
-                    			<td width="80">Action</td>
-                    			<td>Title</td>
-                    			<td width="120">Author</td>
-                    			<td width="120">Category</td>
-                    			<td width="170">Date</td>
-                    		</tr>
-                    	</tread>
-                    	<tbody>
-                    		@foreach ($posts as $post)
-                    			<tr>
-                    			<td>
-
-                          {!! Form::open(['method'=> 'DELETE', 'route' => ['backend.blog.destroy', $post->id ]]) !!}
-
-                            @if(check_user_permissions(request(),"", $post->id))
-                      				<a href="{{ route('backend.blog.edit', $post->id ) }}" class="btn btn-xs btn-default">
-                      					<i class="fa fa-edit"></i>
-                      				</a>
-                            @else 
-                              <a href="#" class="btn btn-xs btn-default disabled">
-                                  <i class="fa fa-edit"></i>
-                                </a>
-                            @endif
-                        
-                    				<button type="submit" class="btn btn-xs btn-danger">
-                    					<i class="fa fa-times"></i>
-                            </button>
-
-                          {!! Form::close() !!}
-
-                    			</td>
-                    			<td>{{ $post->title }}</td>
-                    			<td>{{ $post->author->name }}</td>
-                    			<td>{{ $post->category->title }}</td>
-                    			<td>
-                    				<abbr title="{{ $post->dateFormatted(true) }}">{{ $post->dateFormatted() }}</abbr> |  
-                    				{!! $post->publicationLabel() !!}
-                    			</td>
-                    			</tr>
-                    		@endforeach
-                    	</tbody>
-                    </table>
+                   @if ($onlyTrashed)
+                     @include('backend.blog.table-trash')
+                   @else
+                     @include('backend.blog.table')
+                   @endif
                  @endif
               </div>
               <!-- /.box-body -->
               <div class="box-footer clearfix">
               	<div class="pull-left">
-              		{{ $posts->render() }}
+              		{{ $posts->appends( Request::query() )->render() }}
               	</ul>
               	</div>
               	<div class="pull-right">
