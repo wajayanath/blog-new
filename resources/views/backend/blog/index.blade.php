@@ -47,7 +47,7 @@
             	</div>
               <!-- /.box-header -->
               <div class="box-body ">
-              	@include('backend.blog.message')
+              	@include('backend.partials.message')
               	
               	@if (! $posts->count())
               		<div class="alert alert-danger">
@@ -65,7 +65,6 @@
               <div class="box-footer clearfix">
               	<div class="pull-left">
               		{{ $posts->appends( Request::query() )->render() }}
-              	</ul>
               	</div>
               	<div class="pull-right">
               		<small>{{ $postCount }} {{ str_plural('Item', $postCount) }}</small>

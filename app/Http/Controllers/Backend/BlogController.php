@@ -11,7 +11,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 class BlogController extends BackendController
 {
-    protected $limit = 5;
+    
     protected $uploadPath;
 
     public function __construct()
