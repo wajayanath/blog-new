@@ -41,10 +41,11 @@ function check_user_permissions($request, $actionName = NULL, $id = NULL)
                     //if the current user has not update/delete-other-post permission
                     //make sure he/she only modify his/her own post
                      if ( $id && (!$currentUser->can('update-other-post') || !$currentUser->can('delete-other-post')) ) {
-                        $post = \App\Post::find($id);
+                        $post = \App\Post::withTrashed()->find($id);
                         if ($post->author_id !== $currentUser->id) {
                             // dd("cannot update/delete other post");
-                            abort(403,"Forbidden access !");
+                            // abort(403,"Forbidden access !");
+                            return false;
                         }
                      }
                 }
