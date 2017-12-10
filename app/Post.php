@@ -44,6 +44,22 @@ class Post extends Model
         return $imageUrl;
     }
 
+    public function getImageThumbUrlAttribute($value)
+    {
+        $imageUrl = "";
+
+        if ( ! is_null($this->image))
+        {
+            $directory = config('cms.image.directory');
+            $ext       = substr(strrchr($this->image, '.'), 1);
+            $thumbnail = str_replace(".{$ext}", "_thumb.{$ext}", $this->image);
+            $imagePath = public_path() . "/{$directory}/" . $thumbnail;
+            if (file_exists($imagePath)) $imageUrl = asset("{$directory}/" . $thumbnail);
+        }
+
+        return $imageUrl;
+    }
+
     public function getDateAttribute($value)
     {
         return is_null($this->published_at) ? '' : $this->published_at->diffForHumans();
