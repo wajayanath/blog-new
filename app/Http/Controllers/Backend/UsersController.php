@@ -93,8 +93,19 @@ class UsersController extends BackendController
     public function destroy(Requests\UserDestroyRequest $request, $id)
     {
         $user = User::findOrFail($id);
-        $user->delete();
+        
+        $deleteOption = $request->delete_option;
+        $selectedUser = $request->selected_user;
+        
+        if ($deleteOption == "delete") {
+            //delete user posts
+            $user->posts()->withTrashed()->forceDelete();
+        }
+        elseif ($deleteOption == "attrbute") {
+            $user->posts()->update(['author_id' => $selectedUser]); 
+        }
 
+        $user->delete();
         return redirect("/backend/users")->with("message", "User was deleted successfully!");
     } 
     /**
@@ -106,7 +117,7 @@ class UsersController extends BackendController
     public function confirm(Requests\UserDestroyRequest $request, $id)
     {
         $user = User::findOrFail($id);
-
-        return view("backend.users.confirm", compac('user'));
+        $users = User::where('id', '!=', $user->id)->pluck('name', 'id');
+        return view("backend.users.confirm", compact('user', 'users'));
     }
 }

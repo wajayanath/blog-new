@@ -1,4 +1,4 @@
- @extends('layouts.backend.main')
+  @extends('layouts.backend.main')
 
 @section('title', 'MyBlog | Delete Confirmation')
 
@@ -26,10 +26,10 @@
               {!! Form::model($user, [
                   'method' => 'DELETE',
                   'route'  => ['backend.users.destroy', $user->id],
-              ]) !!}
+              ]) !!} 
 
                   <div class="col-xs-9">
-                    <div class="box">
+                    <div class="box"> 
                       <div class="box-body ">
                         <p>
                           You have specified this user for deletion:
@@ -41,13 +41,18 @@
                           What should done with content own by this user?
                         </p>
                         <p>
-                          <input type="radio" name="delete_option" val ue="delete"> Delete all content
+                          <input type="radio" name="delete_option" value="delete" checked> Delete all content
                         </p>
                         <p>
                           <input type="radio" name="delete_option" value="attribute"> Arribute content to 
-                          {!! Form::select('select_user', App\User::pluck('name','id'), null) !!}
+                          {!! Form::select('select_user', $users, null) !!}
                         </p>
                       </div>
+                      <div class="box-footer">
+                        <button type="submit" class="btn btn-danger">Confirm Deletion</button>
+                        <a href="{{ route('backend.users.index') }}" class="btn btn-default">Cancel</a>
+                      </div>
+
                     </div>
                   </div>
 
