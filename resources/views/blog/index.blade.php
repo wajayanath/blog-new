@@ -5,8 +5,14 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8">
+             @if (! $posts->count())
+                    <div class="alert alert-warning">
+                        <p>Nothing Found</p>
+                    </div>
+                @else
+                    @include('blog.alert')
 
-                @foreach($posts as $post)
+                    @foreach($posts as $post)
 
                     <article class="post-item">
                         @if ($post->image_url)
@@ -39,10 +45,10 @@
                         </div>
                     </article>
 
-                @endforeach
-
+                    @endforeach
+                @endif
                 <nav>
-                  {{ $posts->links() }}
+                  {{ $posts->appends(request()->only(['term']))->links() }}
                 </nav>
             </div>
 

@@ -29,7 +29,7 @@
                 <img src="/backend/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                 <p>
-                  {{ Auth::user()->name }} - Web Developer
+                  {{ Auth::user()->name }} - {{ Auth::user()->roles->first()->display_name }}
                 </p>
               </li>
               <!-- Menu Footer-->

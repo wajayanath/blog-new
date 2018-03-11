@@ -13,6 +13,7 @@ class BlogController extends Controller
 
     public function index()
     {
+        // \DB::enableQueryLog();
         $categories = Category::with(['posts' => function($query) {
             $query->published();
         }])->orderBy('title', 'asc')->get();
@@ -20,8 +21,11 @@ class BlogController extends Controller
         $posts = Post::with('author')
                     ->latestFirst()
                     ->published()
+                    ->filter(request('term'))
                     ->simplePaginate($this->limit);
 
+        // view("blog.index", compact('posts', 'categories'))->render();
+        // dd(\DB::getQueryLog());
         return view("blog.index", compact('posts', 'categories'));
     }
 

@@ -113,4 +113,15 @@ class Post extends Model
         return $query->whereNull("published_at");
     }
 
+    public function scopeFilter($query, $term)
+    {
+        if ($term) 
+        {
+                $query->where(function($q) use ($term) {
+                $q->orWhere('title', 'LIKE', "%{$term}%");
+                $q->orWhere('body', 'LIKE', "%{$term}%");
+            });
+        }
+    }
+
 }
