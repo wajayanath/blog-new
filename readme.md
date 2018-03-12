@@ -2,9 +2,9 @@
 
 ## Front-end
 
-[![Front-end](https://github.com/wajayanath/blog-new/public/img/front-end.jpg)]
+![Alt text](/public/img/front-end.jpg?raw=true "Front-end")
 
 ## Back-end
 
-[![Front-end](https://github.com/wajayanath/blog-new/public/img/back-end.jpg)]
+![Alt text](/public/img/back-end.jpg?raw=true "Back-end")
 
