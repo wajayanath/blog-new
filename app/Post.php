@@ -118,6 +118,12 @@ class Post extends Model
         if ($term) 
         {
                 $query->where(function($q) use ($term) {
+                $q->whereHas('author', function($qr) use ($term) {
+                    $qr->where('name', 'LIKE', "%{$term}%");
+                }); 
+                $q->orWhereHas('category', function($qr) use ($term) {
+                    $qr->where('title', 'LIKE', "%{$term}%");
+                });     
                 $q->orWhere('title', 'LIKE', "%{$term}%");
                 $q->orWhere('body', 'LIKE', "%{$term}%");
             });
